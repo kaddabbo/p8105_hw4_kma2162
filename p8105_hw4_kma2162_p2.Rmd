@@ -9,20 +9,21 @@ output: html_document
 library(janitor)
 library(lubridate)
 library(dplyr)
+library(readr)
 ```
 
 
 Read and clean applicable data, modify pols_month data so that the column reads date and round down the days to the first of the month. 
 
-```{r}
-gdp = read.csv("./GDP.csv") %>%
+```{r results = "hide"}
+gdp = read_csv("./GDP.csv") %>%
   clean_names()
 
-pols_month = read.csv("./pols-month.csv") %>%
+pols_month = read_csv("./pols-month.csv") %>%
   clean_names() %>%
-  rename(date = mon) %>%
-  lubridate::floor_date(date, "day")
-
+  mutate(mon = as.Date(mon, format = "%Y-%m-%d")) %>%
+  mutate(date = lubridate::floor_date(mon, "month")) %>%
+  select(-mon)
 ```
 
 
@@ -32,19 +33,3 @@ The two datasets can then be merged by date.
 
 pol_data = merge(gdp, pols_month, by = "date")
 ```
-
-
-#can't rename value to gdp due to "."
-
-
-
-Problem 1 Plot
-
-Create a plot showing the distribution of post-natal days for each developmental landmark:
-
-pups_data$pd_outcome <- factor(pups_data$pd_outcome, levels = c("ears", "pivot", "walk", 
-                                                            "eyes"))
-ggplot(pups_data, aes(x = pd_outcome, y = days)) + 
-  geom_violin(aes(fill = pd_outcome), color = "black", alpha = 0.5) + 
-  stat_summary(fun.y = median, geom = "point", color = "black", size = 1) +
-  theme(legend.position = "bottom")
