@@ -9,7 +9,12 @@ output: html_document
 library(janitor)
 library(lubridate)
 library(dplyr)
+```
 
+
+Read and clean applicable data, modify pols_month data so that the column reads date and round down the days to the first of the month. 
+
+```{r}
 gdp = read.csv("./GDP.csv") %>%
   clean_names()
 
@@ -18,16 +23,24 @@ pols_month = read.csv("./pols-month.csv") %>%
   rename(date = mon) %>%
   lubridate::floor_date(date, "day")
 
-
 ```
 
 
-can't rename value to gdp due to "."
+The two datasets can then be merged by date. 
 
-prods.all$Date2 <- mdy(prods.all$Date2)
+```{r}
+
+pol_data = merge(gdp, pols_month, by = "date")
+```
+
+
+#can't rename value to gdp due to "."
+
 
 
 Problem 1 Plot
+
+Create a plot showing the distribution of post-natal days for each developmental landmark:
 
 pups_data$pd_outcome <- factor(pups_data$pd_outcome, levels = c("ears", "pivot", "walk", 
                                                             "eyes"))
