@@ -143,15 +143,19 @@ library(lubridate)</code></pre>
 <pre><code>## The following objects are masked from 'package:base':
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(readr)</code></pre>
+<pre class="r"><code>library(readr)
+library(ggplot2)</code></pre>
 <p>Read and clean applicable data, modify the pols_month data so that the mon column is changed from a class of factor to date. Then the mon columnis mutated so that the day of each month is rounded down to the first, using lubridate. Then the original column of mon is removed, as we have created a different column to serve our needs better.</p>
 <pre class="r"><code>gdp = read_csv(&quot;./GDP.csv&quot;) %&gt;%
-  clean_names()</code></pre>
+  clean_names() %&gt;%
+  mutate(value = as.numeric(value))</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   DATE = col_date(format = &quot;&quot;),
 ##   VALUE = col_character()
 ## )</code></pre>
+<pre><code>## Warning in evalq(as.numeric(value), &lt;environment&gt;): NAs introduced by
+## coercion</code></pre>
 <pre class="r"><code>pols_month = read_csv(&quot;./pols-month.csv&quot;) %&gt;%
   clean_names() %&gt;%
   mutate(mon = as.Date(mon, format = &quot;%Y-%m-%d&quot;)) %&gt;%

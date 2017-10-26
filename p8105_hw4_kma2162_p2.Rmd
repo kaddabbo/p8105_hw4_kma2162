@@ -10,6 +10,7 @@ library(janitor)
 library(lubridate)
 library(dplyr)
 library(readr)
+library(ggplot2)
 ```
 
 
@@ -17,7 +18,8 @@ Read and clean applicable data, modify the pols_month data so that the mon colum
 
 ```{r}
 gdp = read_csv("./GDP.csv") %>%
-  clean_names()
+  clean_names() %>%
+  mutate(value = as.numeric(value))
 
 pols_month = read_csv("./pols-month.csv") %>%
   clean_names() %>%
@@ -26,10 +28,10 @@ pols_month = read_csv("./pols-month.csv") %>%
   select(-mon)
 ```
 
-
 The two datasets can then be merged by date. 
 
 ```{r}
 
 pol_data = merge(gdp, pols_month, by = "date")
 ```
+
