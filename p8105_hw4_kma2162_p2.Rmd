@@ -5,7 +5,7 @@ date: "October 26, 2017"
 output: html_document
 ---
 
-```{r load_packages, echo = FALSE, results = "hide"}
+```{r}
 library(janitor)
 library(lubridate)
 library(dplyr)
@@ -13,9 +13,9 @@ library(readr)
 ```
 
 
-Read and clean applicable data, modify pols_month data so that the column reads date and round down the days to the first of the month. 
+Read and clean applicable data, modify the pols_month data so that the mon column is changed from a class of factor to date. Then the mon columnis mutated so that the day of each month is rounded down to the first, using lubridate. Then the original column of mon is removed, as we have created a different column to serve our needs better. 
 
-```{r results = "hide"}
+```{r}
 gdp = read_csv("./GDP.csv") %>%
   clean_names()
 
