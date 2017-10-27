@@ -1,11 +1,13 @@
 ---
 title: "p8105_hw4_kma2162_p2"
 author: "Kathryn Addabbo"
-date: "October 26, 2017"
+date: "October 27, 2017"
 output: html_document
 ---
 
-```{r}
+Load the appropriate libraries for this exercise.
+
+```{r message = FALSE}
 library(janitor)
 library(lubridate)
 library(dplyr)
@@ -14,18 +16,34 @@ library(ggplot2)
 ```
 
 
-Read and clean applicable data, modify the pols_month data so that the mon column is changed from a class of factor to date. Then the mon columnis mutated so that the day of each month is rounded down to the first, using lubridate. Then the original column of mon is removed, as we have created a different column to serve our needs better. 
+####Read and clean data:
 
-```{r}
+The GDP dataset was read and the names were cleaned. The value column class was then mutated to a numeric, it contains the gross domestic production measurements. The column was then renamed gdp, to aid comprehension when merging with other datasets as the title value is generic. In this scenario, it is alright for NA's to be introduced via coercion because the first four columns do not contain a GDP value in the original dataset.
+
+```{r message = FALSE}
 gdp = read_csv("./GDP.csv") %>%
   clean_names() %>%
-  mutate(value = as.numeric(value))
+  mutate(value = as.numeric(value)) %>%
+  rename(gdp = value)
+```
 
+
+The pols-month dataset was read and names were cleaned. The mon column class was mutated to date with the appropriate format to recognize that year came first, then month, then day. The lubridate function was used to round down each day to the first of the month and a new column date was created with those values. Therefore the mon column was removed and the prez_gop column, as it is a replication of the prez_dem column (with the value of 0 and 1 reversed). Then the column was given a more generic name of prez. 
+
+```{r message = FALSE}
 pols_month = read_csv("./pols-month.csv") %>%
   clean_names() %>%
   mutate(mon = as.Date(mon, format = "%Y-%m-%d")) %>%
   mutate(date = lubridate::floor_date(mon, "month")) %>%
-  select(-mon)
+  select(-c(mon, prez_gop)) %>%
+  rename(prez = prez_dem)
+```
+
+To make comprehension of this column more clear, the values inside were changed to read dem and gop when the president was democratic and republican respectively. 
+
+```{r}
+pols_month$prez[pols_month$prez == "1"] = "dem"
+pols_month$prez[pols_month$prez == "0"] = "gop"
 ```
 
 The two datasets can then be merged by date. 
@@ -35,3 +53,5 @@ The two datasets can then be merged by date.
 pol_data = merge(gdp, pols_month, by = "date")
 ```
 
+
+The following plot showcases the evaluation of GDP over time, while taking into account the party of the president. 
