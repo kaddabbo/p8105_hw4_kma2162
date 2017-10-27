@@ -132,7 +132,7 @@ library(readr)
 library(ggplot2)</code></pre>
 <div id="read-and-clean-data" class="section level4">
 <h4>Read and clean data:</h4>
-<p>The GDP dataset was read and the names were cleaned. The value column class was then mutated to a numeric, it contains the gross domestic production measurements. The column was then renamed gdp, to aid comprehension when merging with other datasets as the title value is generic. In this scenario, it is alright for NA’s to be introduced via coercion because the first four columns do not contain a GDP value in the original dataset.</p>
+<p>The GDP dataset was read and the names were cleaned. The value column class was then mutated to a numeric, it contains the gross domestic production measurements. The column was then renamed gdp, to aid comprehension when merging with other datasets as the title value is generic. In this scenario, it is alright for NA’s to be introduced via coercion because the first four rows do not contain a GDP value in the original dataset.</p>
 <pre class="r"><code>gdp = read_csv(&quot;./GDP.csv&quot;) %&gt;%
   clean_names() %&gt;%
   mutate(value = as.numeric(value)) %&gt;%

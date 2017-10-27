@@ -18,7 +18,7 @@ library(ggplot2)
 
 ####Read and clean data:
 
-The GDP dataset was read and the names were cleaned. The value column class was then mutated to a numeric, it contains the gross domestic production measurements. The column was then renamed gdp, to aid comprehension when merging with other datasets as the title value is generic. In this scenario, it is alright for NA's to be introduced via coercion because the first four columns do not contain a GDP value in the original dataset.
+The GDP dataset was read and the names were cleaned. The value column class was then mutated to a numeric, it contains the gross domestic production measurements. The column was then renamed gdp, to aid comprehension when merging with other datasets as the title value is generic. In this scenario, it is alright for NA's to be introduced via coercion because the first four rows do not contain a GDP value in the original dataset.
 
 ```{r message = FALSE}
 gdp = read_csv("./GDP.csv") %>%
