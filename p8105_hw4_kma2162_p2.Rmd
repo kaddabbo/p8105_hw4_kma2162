@@ -2,7 +2,9 @@
 title: "p8105_hw4_kma2162_p2"
 author: "Kathryn Addabbo"
 date: "October 27, 2017"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 Load the appropriate libraries for this exercise.
